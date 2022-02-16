@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 function App() {
 
   const [todo, setTodo] = useState([
-    { name: 'Learn FlatList.', id: 1 },
+    { name: 'Learn FlatList..', id: 1 },
     { name: 'learn render item.', id: 2 },
     { name: 'create a todo app.', id: 3 }
   ]);
