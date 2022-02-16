@@ -1,20 +1,62 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, FlatList } from 'react-native'
+import Todo from './Todo';
+import AddTodo from './AddTodo';
+import Header from './Header'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-export default function App() {
+function App() {
+
+  const [todo, setTodo] = useState([
+    { name: 'Learn FlatList.', id: 1 },
+    { name: 'learn render item.', id: 2 },
+    { name: 'create a todo app.', id: 3 }
+  ]);
+
+
+  const pressHandler = (id) => {
+    // console.log(id)
+    setTodo((abc) => {
+      return abc.filter(todos => todos.id != id)
+    });
+  }
+
+  const submitHandler = (text) => {
+    setTodo((abc) => {
+      return [
+        { name: text, id: Math.random().toString() },
+        ...abc
+      ];
+    })
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <SafeAreaView style={styles.container}>
+
+      <Header />
+
+      <AddTodo submitHandler={submitHandler} />
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={todo}
+        renderItem={({ item }) => (
+          <Todo item={item} pressHandler={pressHandler} />
+        )}
+      // keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
+  )
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
-  },
+    alignItems: 'center',
+    flex: 1
+
+  }
 });
+
+
+export default App;
