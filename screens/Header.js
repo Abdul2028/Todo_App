@@ -1,28 +1,31 @@
 import React from 'react';
-import { Text, StyleSheet, SafeAreaView } from 'react-native'
+import { Text, StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 
 function Header() {
 
 
     return (
-        <SafeAreaView style={styles.header}>
+        <SafeAreaView style={styles.head}>
             <Text style={styles.headtext}>My TODO'S</Text>
         </SafeAreaView>
     )
 };
 
 const styles = StyleSheet.create({
-    header: {
-        height: 60,
+    head: {
         backgroundColor: 'coral',
-        width: '100%',
-        alignItems: 'center',
+        height: 70,
+        alignContent: 'center',
         justifyContent: 'center',
     },
     headtext: {
-        fontSize: 20,
         fontWeight: 'bold',
+        fontSize: 20,
         color: '#fff',
+        textAlign:'center'
+        
     }
 
 });

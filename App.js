@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, FlatList } from 'react-native'
-import Todo from './Todo';
-import AddTodo from './AddTodo';
-import Header from './Header'
-import  {SafeAreaView}  from 'react-native-safe-area-context'
+import React, { useState } from 'react'
+import { StyleSheet, FlatList, Alert, Text, TouchableWithoutFeedback, Keyboard, View } from 'react-native'
+import Todo from './screens/Todo'
+import AddTodo from './screens/AddTodo'
+import Header from './screens/Header'
 
 function App() {
 
@@ -13,7 +12,6 @@ function App() {
     { name: 'create a todo app.', id: 3 }
   ]);
 
-
   const pressHandler = (id) => {
     // console.log(id)
     setTodo((abc) => {
@@ -22,39 +20,53 @@ function App() {
   }
 
   const submitHandler = (text) => {
-    setTodo((abc) => {
-      return [
-        { name: text, id: Math.random().toString() },
-        ...abc
-      ];
-    })
+    if (text.length > 3) {
+      setTodo((abc) => {
+        return [
+          { name: text, id: Math.random().toString() },
+          ...abc
+        ];
+      });
+    }
+    else {
+      Alert.alert('OOPS!', 'Enter more then 3 characters, please!',
+        [{ text: 'Understood', onPress: () => console.log('alert closed') }]
+      )
+    }
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
+      <View style={styles.main}>
+        <Header />
 
-      <Header />
+        <View style={styles.addtodo}>
+          <AddTodo submitHandler={submitHandler} />
 
-      <AddTodo submitHandler={submitHandler} />
-
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={todo}
-        renderItem={({ item }) => (
-          <Todo item={item} pressHandler={pressHandler} />
-        )}
-      // keyExtractor={(item) => item.id}
-      />
-    </SafeAreaView>
+          <View style={styles.todolist}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={todo}
+              renderItem={({ item }) => (
+                <Todo item={item} pressHandler={pressHandler} />
+              )}
+            />
+          </View>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  main: {
+    flex: 1,
+  },
+  addtodo: {
+    flex: 1,
+  },
+  todolist: {
     flex: 1
-
   }
 });
 
